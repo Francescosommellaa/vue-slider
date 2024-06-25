@@ -28,6 +28,40 @@ const app = {
                 text: 'Marvel\'s Avengers is an epic, third-person, action-adventure game that combines an original, cinematic story with single-player and co-operative gameplay.',
             }
         ]);
+        
+        // Definisci la slide corrente come un numero
+        const currentSlide = ref(0);
+
+        // Definisci autoplay come null
+        let autoplay = null;
+
+        // Definisci la funzione nextSlide per andare alla slide successiva
+        const nextSlide = () => {
+            currentSlide.value = (currentSlide.value + 1) % slides.value.length;
+        };
+
+        // Definisci la funzione prevSlide per tornare alla slide precedente
+        const prevSlide = () => {
+            currentSlide.value = (currentSlide.value - 1 + slides.value.length) % slides.value.length;
+        };
+
+        // Definisci la funzione startAutoplay per iniziare l'autoplay
+        const startAutoplay = () => {
+            autoplay = setInterval(nextSlide, 3000);
+        };
+
+        // Definisci la funzione stopAutoplay per fermare l'autoplay
+        const stopAutoplay = () => {
+            clearInterval(autoplay);
+        };
+
+        // Quando l'applicazione viene montata, inizia l'autoplay
+        onMounted(startAutoplay);
+        // Quando l'applicazione viene smontata, ferma l'autoplay
+        onUnmounted(stopAutoplay);
+
+        // Restituisci le variabili e le funzioni che vuoi esporre
+        return { slides, currentSlide, nextSlide, prevSlide, startAutoplay, stopAutoplay };
     }
 };
 
